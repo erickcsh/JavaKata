@@ -86,3 +86,6 @@ java.lang.NullPointerException
 
 !ENTRY org.eclipse.m2e.logback.appender 4 0 2013-12-20 08:10:12.200
 !MESSAGE Failed to open search index.
+
+!ENTRY org.eclipse.ui 4 4 2013-12-20 12:16:13.796
+!MESSAGE Referenced part does not exist yet: org.eclipse.ui.views.ProblemView.
