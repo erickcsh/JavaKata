@@ -1,0 +1,17 @@
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+
+public class TestBigSumCalculator {
+
+	
+	@Test
+	public void createBSCalculator(){
+		ArrayList list = new ArrayList<BigInteger>();
+		
+		BigSumCalculator bsCalculator = new BigSumCalculator(list);
+	}
+}

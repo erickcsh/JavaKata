@@ -1,0 +1,12 @@
+package tests;
+import org.junit.Test;
+
+
+public class TestBigSumCalculator {
+
+	
+	@Test
+	public void createBSCalculator(){
+		BigSumCalculator bsCalculator = new BigSumCalculator();
+	}
+}

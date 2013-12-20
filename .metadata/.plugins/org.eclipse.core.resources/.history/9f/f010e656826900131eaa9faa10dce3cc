@@ -1,0 +1,13 @@
+import java.math.BigInteger;
+import java.util.List;
+
+
+public class BigSumCalculator {
+	
+	private List<BigInteger> bigNumCollection;
+
+	public BigSumCalculator(List<BigInteger> bigNumCollection ){
+		this.bigNumCollection = bigNumCollection;
+	}
+
+}
