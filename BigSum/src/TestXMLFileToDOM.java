@@ -1,9 +1,9 @@
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
+import java.util.ArrayList;
+
 import org.junit.Test;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 
 
 public class TestXMLFileToDOM {
@@ -19,39 +19,41 @@ public class TestXMLFileToDOM {
 	@Test
 	public void testGetTestNode(){
 		String expected = "test";
-		String actual = xmlParser.getNodesByTag("test").item(0).getNodeName();
-		assertEquals("NODE_ERROR: Not getting the expected node",actual,expected);
+		String actual = xmlParser.getFirstNodeByTag("test").getNodeName();
+		assertEquals("NODE_ERROR: Not getting the expected node",expected,actual);
 	}
 	
 	@Test
 	public void testGetNotExistingNode(){
-		int expected = 0;
-		int actual = xmlParser.getNodesByTag("not_existing").getLength();
-		assertEquals("NOT_EMPTY_NODE: Not getting the expected node",actual,expected);
+		Element actual = xmlParser.getFirstNodeByTag("not_existing");
+		assertEquals("NOT_EMPTY_NODE: Not getting the expected node",null,actual);
 	}
 	
-	@Ignore
 	@Test
 	public void testGetNotExistingNodeChilds(){
-		/*NodeList expected = null;
-		//NodeList actual = xmlParser.getChildNodes("not_existing");
-		assertEquals("NOT_EMPTY_NODE_CHILD_ERROR: Not getting the expected node",
-				actual,expected);*/
+		ArrayList<Element> expected = null;
+		ArrayList<Element> actual = xmlParser.getChildNodes("not_existing");
+		assertEquals("NOT_EMPTY_NODE_CHILD_ERROR: Childs does not exist",
+				expected,actual);
+	}
+	
+	@Test
+	public void testGetChildNodesOfNodeWithoutChilds(){
+		ArrayList<Element> expected = new ArrayList<Element>();
+		ArrayList<Element> actual = xmlParser.getChildNodes("empty_test");
+		assertEquals("NOT_EMPTY_NODE_CHILD_ERROR: Childs not empty",
+				expected,actual);
 	}
 	
 	@Test
 	public void testGetTestChildNodes(){
-		Node childs = xmlParser.getChildNodes("test");
+		ArrayList<Element> childs = xmlParser.getChildNodes("test");
 		int expected = 2;
-		System.out.println(childs.getNodeValue());
-		int actual = 1;//childs.getLength();
+		int actual = childs.size();
 		assertEquals("NOT_CORRECT_CHILDS_ERROR: Not getting the expected childs",expected,actual);
-		/*String child1_expected_value = "1";
-		String child2_expected_value = "2";
-		String child1_actual_value = childs.item(0).getNodeValue();
-		String child2_actual_value = childs.item(1).getNodeValue();
+		String child1_expected_value = "Text";
+		String child1_actual_value = childs.get(0).getTextContent();
 		assertEquals("NODE_ERROR: Not getting the expected node",child1_actual_value,child1_expected_value);
-		assertEquals("NODE_ERROR: Not getting the expected node",child2_actual_value,child2_expected_value);*/
 	}
 	
 	

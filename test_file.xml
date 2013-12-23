@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<test><child>Text</child></test>
+<test>
+	<child>Text</child>
+	<empty_test></empty_test>
+</test>
