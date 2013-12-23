@@ -47,6 +47,35 @@ public class XMLFileManager {
 			return null;
 		}
 	}
+	
+	public Element getFirstChildByTagRelativeToParentNode(String parent_tag, String child_tag){
+		ArrayList<Element> childs = getChildNodes(parent_tag);
+		if(childs == null){
+			return null;
+		}
+		return findChildByTag(childs, child_tag);
+		
+	}
+
+	private Element findChildByTag(ArrayList<Element> childs, String child_tag) {
+		int childSearchedIndex = -1;
+		int count = -1;
+		for(Element child : childs){
+			count++;
+			if(child.getTagName() == child_tag){
+				childSearchedIndex = count;
+				break;
+			}
+		}
+		return getAppropiateElementFromIndex(childs, childSearchedIndex);
+	}
+
+	private Element getAppropiateElementFromIndex(ArrayList<Element> childs, int index) {
+		if(index == -1){
+			return null;
+		}
+		return childs.get(index);
+	}
 
 	private ArrayList<Element> getElementNodes(NodeList nodes) {
 		ArrayList<Element> elementNodes = new ArrayList<Element>();
@@ -61,6 +90,13 @@ public class XMLFileManager {
 	
 	private boolean isNodeElement(Node node){
 		return node.getNodeType() == Node.ELEMENT_NODE;
+	}
+	
+	private void setRelativeToParentElementText(String parent_tag, String element_tag, String new_text){
+		Element parent = getFirstChildByTagRelativeToParentNode(parent_tag, element_tag);
+		if(parent != null){
+			parent.setTextContent(new_text);
+		}
 	}
 
 

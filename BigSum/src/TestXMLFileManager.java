@@ -20,13 +20,13 @@ public class TestXMLFileManager {
 	public void testGetTestNode(){
 		String expected = "test";
 		String actual = xmlManager.getFirstNodeByTag("test").getNodeName();
-		assertEquals("NODE_ERROR: Not getting the expected node",expected,actual);
+		assertEquals("NODE_ERROR: Not getting the expected node", expected, actual);
 	}
 	
 	@Test
 	public void testGetNotExistingNode(){
 		Element actual = xmlManager.getFirstNodeByTag("not_existing");
-		assertEquals("NOT_EMPTY_NODE: Not getting the expected node",null,actual);
+		assertEquals("NOT_EMPTY_NODE: Not getting the expected node", null, actual);
 	}
 	
 	@Test
@@ -34,7 +34,7 @@ public class TestXMLFileManager {
 		ArrayList<Element> expected = null;
 		ArrayList<Element> actual = xmlManager.getChildNodes("not_existing");
 		assertEquals("NOT_EMPTY_NODE_CHILD_ERROR: Childs does not exist",
-				expected,actual);
+				expected, actual);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class TestXMLFileManager {
 		ArrayList<Element> expected = new ArrayList<Element>();
 		ArrayList<Element> actual = xmlManager.getChildNodes("empty_test");
 		assertEquals("NOT_EMPTY_NODE_CHILD_ERROR: Childs not empty",
-				expected,actual);
+				expected, actual);
 	}
 	
 	@Test
@@ -50,10 +50,32 @@ public class TestXMLFileManager {
 		ArrayList<Element> childs = xmlManager.getChildNodes("test");
 		int expected = 2;
 		int actual = childs.size();
-		assertEquals("NOT_CORRECT_CHILDS_ERROR: Not getting the expected childs",expected,actual);
+		assertEquals("NOT_CORRECT_CHILDS_ERROR: Not getting the expected childs", expected, actual);
 		String child1_expected_value = "Text";
 		String child1_actual_value = childs.get(0).getTextContent();
-		assertEquals("NODE_ERROR: Not getting the expected node",child1_actual_value,child1_expected_value);
+		assertEquals("NODE_ERROR: Not getting the expected node", child1_actual_value, child1_expected_value);
+	}
+	
+	@Test
+	public void testGetChildRelativeToParent(){
+		String expected = "Text";
+		String actual = xmlManager.getFirstChildByTagRelativeToParentNode("test", "child").getTextContent();
+		assertEquals("NODE_ERROR: Child exists in current parent but still not founded", 
+				expected, actual);
+	}
+	
+	@Test
+	public void testGetChildRelativeToNotExistingParent(){
+		Element expected = null;
+		Element actual = xmlManager.getFirstChildByTagRelativeToParentNode("not_existing", "test");
+		assertEquals("NODE_ERROR:Parent does not exists still getting child", expected, actual);
+	}
+	
+	@Test
+	public void testGetNotExistingChildRelativeToParent(){
+		Element expected = null;
+		Element actual = xmlManager.getFirstChildByTagRelativeToParentNode("test", "not_existing");
+		assertEquals("NODE_ERROR: Child does not exists still getting child", expected, actual);
 	}
 	
 	
