@@ -8,8 +8,10 @@ public class BigSumController {
 	
 	XMLFileManager xmlManager;
 	BigSumCalculator sumCalculator;
+	String file;
 	
 	public BigSumController(String file){
+		this.file = file;
 		xmlManager = new XMLFileManager(file);
 		ArrayList<BigInteger> bigIntegers = elementsToBigInteger(xmlManager.getChildNodes("input"));
 		sumCalculator = new BigSumCalculator(bigIntegers);
@@ -17,7 +19,8 @@ public class BigSumController {
 	
 	public void calculateAndWriteFirst10DigitsOfSum(){
 		String total = sumCalculator.getFirstNumbersOfSum(10);
-		//TODO: Write to File
+		xmlManager.setRelativeToParentElementText("output", "number", total);
+		xmlManager.writeXMLFile(file);
 	}
 	
 	public ArrayList<BigInteger> elementsToBigInteger(ArrayList<Element> elements){

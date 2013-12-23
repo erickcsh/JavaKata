@@ -1,13 +1,14 @@
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 
 public class XMLFileManager {
@@ -25,6 +26,28 @@ public class XMLFileManager {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	public void writeXMLFile(String file_path){
+		try {
+            Transformer transformer = getTransformer();
+            transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(file_path)));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();;
+        } 
+	}
+
+	private Transformer getTransformer()
+			throws TransformerConfigurationException,
+			TransformerFactoryConfigurationError {
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
+		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		return transformer;
 	}
 
 	public Element getFirstNodeByTag(String tag) {
@@ -45,6 +68,13 @@ public class XMLFileManager {
 		}
 		else{
 			return null;
+		}
+	}
+	
+	public void setRelativeToParentElementText(String parent_tag, String element_tag, String new_text){
+		Element parent = getFirstChildByTagRelativeToParentNode(parent_tag, element_tag);
+		if(parent != null){
+			parent.setTextContent(new_text);
 		}
 	}
 	
@@ -90,13 +120,6 @@ public class XMLFileManager {
 	
 	private boolean isNodeElement(Node node){
 		return node.getNodeType() == Node.ELEMENT_NODE;
-	}
-	
-	private void setRelativeToParentElementText(String parent_tag, String element_tag, String new_text){
-		Element parent = getFirstChildByTagRelativeToParentNode(parent_tag, element_tag);
-		if(parent != null){
-			parent.setTextContent(new_text);
-		}
 	}
 
 

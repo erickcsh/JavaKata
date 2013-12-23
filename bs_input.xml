@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE kata SYSTEM "roles.dtd">
 <kata>
   <input>
     <number>37107287533902102798797998220837590246510135740250</number>
@@ -103,6 +104,6 @@
     <number>53503534226472524250874054075591789781264330331690</number>
   </input>
   <output>
-  	<number></number>
+  	<number>5537376230</number>
   </output>
 </kata>
