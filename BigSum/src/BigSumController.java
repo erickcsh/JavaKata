@@ -6,6 +6,10 @@ import org.w3c.dom.Element;
 
 public class BigSumController {
 	
+	private final String INPUT_TAG = "input";
+	private final String OUTPUT_TAG = "output";
+	private final String NUMBER_TAG = "number";
+	
 	XMLFileManager xmlManager;
 	BigSumCalculator sumCalculator;
 	String file;
@@ -13,13 +17,13 @@ public class BigSumController {
 	public BigSumController(String file){
 		this.file = file;
 		xmlManager = new XMLFileManager(file);
-		ArrayList<BigInteger> bigIntegers = elementsToBigInteger(xmlManager.getChildNodes("input"));
+		ArrayList<BigInteger> bigIntegers = elementsToBigInteger(xmlManager.getChildNodes(INPUT_TAG));
 		sumCalculator = new BigSumCalculator(bigIntegers);
 	}
 	
 	public void calculateAndWriteFirst10DigitsOfSum(){
 		String total = sumCalculator.getFirstNumbersOfSum(10);
-		xmlManager.setRelativeToParentElementText("output", "number", total);
+		xmlManager.setRelativeToParentElementText(OUTPUT_TAG, NUMBER_TAG, total);
 		xmlManager.writeXMLFile(file);
 	}
 	

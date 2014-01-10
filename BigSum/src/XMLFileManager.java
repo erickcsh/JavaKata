@@ -28,13 +28,13 @@ public class XMLFileManager {
 		}
 	}
 	
-	public void writeXMLFile(String file_path){
+	public void writeXMLFile(String filePath){
 		try {
             Transformer transformer = getTransformer();
-            transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(file_path)));
+            transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(filePath)));
 
         } catch (Exception ex) {
-            ex.printStackTrace();;
+            ex.printStackTrace();
         } 
 	}
 
@@ -45,7 +45,6 @@ public class XMLFileManager {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		return transformer;
 	}
@@ -61,8 +60,8 @@ public class XMLFileManager {
 		return null;
 	}
 
-	public ArrayList<Element> getChildNodes(String parent_tag) {
-		Element parent = getFirstNodeByTag(parent_tag);
+	public ArrayList<Element> getChildNodes(String parentTag) {
+		Element parent = getFirstNodeByTag(parentTag);
 		if(parent != null){
 			return getElementNodes(parent.getChildNodes());
 		}
@@ -71,40 +70,21 @@ public class XMLFileManager {
 		}
 	}
 	
-	public void setRelativeToParentElementText(String parent_tag, String element_tag, String new_text){
-		Element parent = getFirstChildByTagRelativeToParentNode(parent_tag, element_tag);
+	public void setRelativeToParentElementText(String parentTag, String elementTag, String newText){
+		Element parent = getFirstChildByTagRelativeToParentNode(parentTag, elementTag);
 		if(parent != null){
-			parent.setTextContent(new_text);
+			parent.setTextContent(newText);
 		}
 	}
 	
-	public Element getFirstChildByTagRelativeToParentNode(String parent_tag, String child_tag){
-		ArrayList<Element> childs = getChildNodes(parent_tag);
-		if(childs == null){
+	public Element getFirstChildByTagRelativeToParentNode(String parentTag, String childTag){
+		Element parent = this.getFirstNodeByTag(parentTag);
+		if(parent == null){
 			return null;
 		}
-		return findChildByTag(childs, child_tag);
+		NodeList childNodes = parent.getElementsByTagName(childTag);
+		return (Element) childNodes.item(0);
 		
-	}
-
-	private Element findChildByTag(ArrayList<Element> childs, String child_tag) {
-		int childSearchedIndex = -1;
-		int count = -1;
-		for(Element child : childs){
-			count++;
-			if(child.getTagName() == child_tag){
-				childSearchedIndex = count;
-				break;
-			}
-		}
-		return getAppropiateElementFromIndex(childs, childSearchedIndex);
-	}
-
-	private Element getAppropiateElementFromIndex(ArrayList<Element> childs, int index) {
-		if(index == -1){
-			return null;
-		}
-		return childs.get(index);
 	}
 
 	private ArrayList<Element> getElementNodes(NodeList nodes) {
