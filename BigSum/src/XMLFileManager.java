@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,17 +16,21 @@ import org.w3c.dom.*;
 public class XMLFileManager {
 
 	Document document;
+	private static final Logger LOGGER = Logger.getLogger(
+		    Thread.currentThread().getStackTrace()[0].getClassName() );
+
 	
 	public XMLFileManager(String file) {
 		try{
 			File xmlFile = new File(file);
+			LOGGER.log(Level.INFO,xmlFile.getAbsolutePath());
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			document = dBuilder.parse(xmlFile);
 			document.getDocumentElement().normalize();
 		}
 		catch(Exception ex){
-			ex.printStackTrace();
+			LOGGER.log(Level.SEVERE,ex.toString());
 		}
 	}
 	
@@ -34,7 +40,7 @@ public class XMLFileManager {
             transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(filePath)));
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+        	LOGGER.log(Level.SEVERE,ex.toString());
         } 
 	}
 
